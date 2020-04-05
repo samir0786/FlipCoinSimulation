@@ -1,54 +1,67 @@
-#!/bin/bash -x
+#!/bin/bash -x 
 
-function simulator(){
 
+function simulator() {
 #!Declaring Variables
-key=""
 flips=$1
 coins=$2
 
 #!declaring Dictionary
-declare -A tripletCount
+declare -A coinFacesDict
 
+#!outer loop for number of Flips
 for((i=1;i<=$flips;i++))
 do
+	#!inner loop for number of Coins
 	for((j=1;j<=$coins;j++))
 	do
 		if(( $((RANDOM%2==0)) ))
 		then
+			#!append value in Key
  			key+=H
 		else
  			key+=T
 		fi
 	done
-	tripletCount[$key]=$((${tripletCount[$key]}+1))
+	#!storing value in key and increment occurrence
+	coinFacesDict[$key]=$((${coinFacesDict[$key]}+1))
+	#!making key blank for next iteration
 	key=""
 done
 
-echo "All Occurrence : " ${!tripletCount[@]}
-echo "All Occurrence : " ${tripletCount[@]}
+echo "All Occurrence of Key : " ${!coinFacesDict[@]}
+echo "All Occurrence of Values: " ${coinFacesDict[@]}
 
 #!calling calulate Percentage Function
 calcPercentage
-
 }
 
+#!function to calculate Percentage
 function calcPercentage() {
-for keys in ${!tripletCount[@]}
+for keys in ${!coinFacesDict[@]}
 do
-		tripletCount[$keys]=$((${tripletCount[$keys]} * 100 / $flips))
+		coinFacesDict[$keys]=$(echo "scale=2;${coinFacesDict[$keys]} * 100 / $flips" | bc ) 
 done
 
-echo "All Occurrence key : " ${!tripletCount[@]}
-echo "All Occurrence Percentage: " ${tripletCount[@]}
-
+echo "Key : " ${!coinFacesDict[@]}
+echo "Percentage : " ${coinFacesDict[@]}
+sortFunction
 }
 
-#!calling function
+#!Sorting Function
+function sortFunction() {
+	echo "Winning Key and Occurrence Percentage"
+	for i in ${!coinFacesDict[@]}
+	do
+		echo -e "$i = ${coinFacesDict[$i]}"
+	done | sort -k3 -rn | head -n 1
+}
+
+#!Main Function
 function flipCoin()
 {
 	local flips=0
-	read -p "Press y to play other key for Quite : " play
+	read -p "Do You want To Play [Y / N]: " play
 	while [ $play == 'y' ]
 	do
 		read -p "Enter How Many Times You want To FlipCoin : " flips
@@ -62,13 +75,13 @@ function flipCoin()
 				simulator $flips 2
 				;;
 			3)
-            simulator $flips 3
-            ;;
+				simulator $flips 3
+				;;
 			*)
 				echo "Invalid Option"
 				;;
 		esac
-		read -p "Press 1 to play other key for Quite : " play
+	read -p "Do You Want To Countinue [y / N]: " play
 	done
 }
 
