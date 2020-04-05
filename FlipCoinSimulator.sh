@@ -8,7 +8,7 @@ flips=$1
 coins=$2
 
 #!declaring Dictionary
-declare -A doubletCount
+declare -A tripletCount
 
 for((i=1;i<=$flips;i++))
 do
@@ -21,12 +21,12 @@ do
  			key+=T
 		fi
 	done
-	doubletCount[$key]=$((${doubletCount[$key]}+1))
+	tripletCount[$key]=$((${tripletCount[$key]}+1))
 	key=""
 done
 
-echo "All Occurrence : " ${!doubletCount[@]}
-echo "All Occurrence : " ${doubletCount[@]}
+echo "All Occurrence : " ${!tripletCount[@]}
+echo "All Occurrence : " ${tripletCount[@]}
 
 #!calling calulate Percentage Function
 calcPercentage
@@ -34,13 +34,13 @@ calcPercentage
 }
 
 function calcPercentage() {
-for keys in ${!doubletCount[@]}
+for keys in ${!tripletCount[@]}
 do
-		doubletCount[$keys]=$((${doubletCount[$keys]} * 100 / $flips))
+		tripletCount[$keys]=$((${tripletCount[$keys]} * 100 / $flips))
 done
 
-echo "All Occurrence key : " ${!doubletCount[@]}
-echo "All Occurrence Percentage: " ${doubletCount[@]}
+echo "All Occurrence key : " ${!tripletCount[@]}
+echo "All Occurrence Percentage: " ${tripletCount[@]}
 
 }
 
