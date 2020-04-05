@@ -52,7 +52,7 @@ function flipCoin()
 	while [ $play == 'y' ]
 	do
 		read -p "Enter How Many Times You want To FlipCoin : " flips
-		echo -e "Enter 1 for Single coin \nEnter 2 for Two Coins "
+		echo -e "Enter 1 for Single coin \nEnter 2 for Two Coins \nEnter 3 for Three Coins "
 		read choice
 		case $choice in
 			1)
@@ -61,6 +61,9 @@ function flipCoin()
 			2)
 				simulator $flips 2
 				;;
+			3)
+            simulator $flips 3
+            ;;
 			*)
 				echo "Invalid Option"
 				;;
