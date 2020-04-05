@@ -1,3 +1,12 @@
 #!/bin/bash -x
-echo "Flip Coin Simulator"
+
+function flipCoin() {
+   if [ $((RANDOM%2)) -eq 1 ]
+   then
+      echo "heads"
+   else
+      echo "Tails"
+   fi
+}
+flipCoin
 
